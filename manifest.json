@@ -1,0 +1,18 @@
+{
+  "name": "Figuritas Mundial 2026",
+  "short_name": "Figuritas",
+  "description": "Marcador de figuritas Panini Mundial 2026",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1a1a2e",
+  "theme_color": "#1a1a2e",
+  "orientation": "portrait-primary",
+"icons": [
+  {
+    "src": "icon.png",
+    "sizes": "512x512",
+    "type": "image/png",
+    "purpose": "any maskable"
+  }
+]
+}

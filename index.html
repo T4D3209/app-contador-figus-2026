@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Álbum Panini Mundial 2026</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#1a1a2e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Figuritas">
+  <link rel="apple-touch-icon" href="./Imgs/icon-512.png">
+  <link rel="icon" type="image/png" href="./Imgs/icon-512.png">
+</head>
+<body>
+
+<header>
+  <h1>Colección de figuritas Álbum Panini <span>Mundial 2026</span></h1>
+  <button id="btn-tema" onclick="toggleTema()">🌙 Modo oscuro</button>
+
+
+  <div class="backup-btns">
+    <button onclick="exportar()">⬇ Exportar</button>
+    <button onclick="importar()">⬆ Importar</button>
+    <input type="file" id="file-importar" accept=".json" style="display:none" onchange="cargarArchivo(event)">
+  </div>
+
+</header>
+
+<!-- ESTADÍSTICAS -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-num total" id="s-total">994</div>
+    <div class="stat-label">Total</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num tengo" id="s-tengo">0</div>
+    <div class="stat-label">Tengo</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num faltan" id="s-faltan">994</div>
+    <div class="stat-label">Me faltan</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num repet" id="s-repet">0</div>
+    <div class="stat-label">Repetidas</div>
+  </div>
+</div>
+
+<!-- CONTROLES -->
+<div class="controles">
+  <select id="filtro-seccion" onchange="aplicarFiltros()">
+    <option value="">— Todas las secciones —</option>
+  </select>
+  <div class="chips">
+    <span class="chip activo" data-estado="todas"    onclick="setEstado('todas', this)">Todas</span>
+    <span class="chip"        data-estado="tengo"    onclick="setEstado('tengo', this)">Tengo</span>
+    <span class="chip"        data-estado="falta"    onclick="setEstado('falta', this)">Me faltan</span>
+    <span class="chip"        data-estado="repetida" onclick="setEstado('repetida', this)">Repetidas</span>
+  </div>
+</div>
+
+<!-- LEYENDA -->
+<div class="leyenda">
+  <div class="leyenda-item"><span class="dot falta"></span>Falta</div>
+  <div class="leyenda-item"><span class="dot tengo"></span>Tengo (clic izq)</div>
+  <div class="leyenda-item"><span class="dot repetida"></span>Repetida (+1 con clic der)</div>
+</div>
+
+<!-- GRILLA PRINCIPAL -->
+<main id="main"></main>
+
+<!-- TOOLTIP -->
+<div id="tooltip"></div>
+
+<script src="script.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(() => console.log('Service Worker registrado'))
+        .catch((err) => console.error('Error SW:', err));
+    });
+  }
+</script>
+</body>
+</html>
