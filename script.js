@@ -334,9 +334,8 @@ function compartirRepetidas() {
 
   // Armar el texto
   const fecha = new Date().toLocaleDateString('es-AR');
-  let texto = `🌍 MIS REPETIDAS - Mundial 2026\n`;
+  let texto = `MIS REPETIDAS - Mundial 2026\n`;
   texto += ` ${fecha}\n`;
-  texto += `${'─'.repeat(30)}\n\n`;
 
   for (const [seccion, figs] of Object.entries(porSeccion)) {
     texto += `${seccion}:\n`;
@@ -350,7 +349,6 @@ function compartirRepetidas() {
       return acc + (match ? parseInt(match[1]) : 1);
     }, 0);
 
-  texto += `${'─'.repeat(30)}\n`;
   texto += `Total repetidas: ${totalRepetidas}`;
 
   // Descargar como .txt
