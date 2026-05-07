@@ -304,3 +304,63 @@ function cargarArchivo(event) {
   // Resetea el input para que puedas importar el mismo archivo dos veces si hace falta
   event.target.value = '';
 }
+
+
+function compartirRepetidas() {
+  // Agrupar repetidas por sección
+  const porSeccion = {};
+
+  for (const fig of ALBUM) {
+    const v = estado[String(fig.id)] || 0;
+    if (v < 2) continue; // solo repetidas (valor 2 o más)
+
+    const extra = v - 1; // cuántas repetidas tiene
+    if (!porSeccion[fig.seccion]) porSeccion[fig.seccion] = [];
+
+    // Armar el label de la figurita
+    const label = fig.jugador
+      ? `${fig.codigo}-${fig.nroEquipo} (${fig.jugador})`
+      : `${fig.codigo}-${fig.nroEquipo}`;
+
+    // Si tiene más de 1 repetida lo indica
+    porSeccion[fig.seccion].push(extra > 1 ? `${label} x${extra}` : label);
+  }
+
+  // Verificar que haya repetidas
+  if (Object.keys(porSeccion).length === 0) {
+    alert('No tenés figuritas repetidas cargadas.');
+    return;
+  }
+
+  // Armar el texto
+  const fecha = new Date().toLocaleDateString('es-AR');
+  let texto = `🌍 MIS REPETIDAS - Mundial 2026\n`;
+  texto += ` ${fecha}\n`;
+  texto += `${'─'.repeat(30)}\n\n`;
+
+  for (const [seccion, figs] of Object.entries(porSeccion)) {
+    texto += `${seccion}:\n`;
+    texto += `  ${figs.join(', ')}\n\n`;
+  }
+
+  const totalRepetidas = Object.values(porSeccion)
+    .flat()
+    .reduce((acc, f) => {
+      const match = f.match(/x(\d+)$/);
+      return acc + (match ? parseInt(match[1]) : 1);
+    }, 0);
+
+  texto += `${'─'.repeat(30)}\n`;
+  texto += `Total repetidas: ${totalRepetidas}`;
+
+  // Descargar como .txt
+  const blob = new Blob([texto], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `repetidas-mundial2026-${fecha.replace(/\//g, '-')}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+
